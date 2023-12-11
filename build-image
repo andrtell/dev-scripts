@@ -44,10 +44,12 @@ if ! REPOSITORY=$(jq -re ".repository" $IMAGE_JSON); then
 fi
 
 if [[ "$1" == "commit" ]]; then
-    IMAGE="$REPOSITORY:$(@git-branch)_$(@git-short-hash)"
+    TAG="$(@git-branch)_$(@git-short-hash)"
 else
-    IMAGE="$REPOSITORY:$(@git-branch)_dev"
+    TAG="$(@git-branch)_dev"
 fi
+
+IMAGE="$REPOSITORY:$TAG"
 
 if ([[ "$1" == "commit" ]] && podman image exists "$IMAGE") || podman build --tag $IMAGE .; then
     @pp-color blue
