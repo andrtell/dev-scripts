@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+PCON=vm01
+
+podman -r -c $PCON run -it --rm --network db --secret postgres_connection,type=env,target=CONN docker.io/postgres bash -c 'psql $CONN'
