@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+CONTAINER_NAME="postgres-dev"
+
+USER="postgres"
+PASS="postgres"
+
+podman run \
+    -d \
+    --rm \
+    --replace \
+    --name $CONTAINER_NAME \
+    -p 5432:5432 \
+    -v postgres-volume:/var/lib/postgresql/data \
+    -e "POSTGRES_PASSWORD=$PASS" \
+    docker.io/postgres

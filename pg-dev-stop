@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+CONTAINER_NAME="postgres-dev"
+
+podman container stop $CONTAINER_NAME
+CONTAINER_NAME="postgres-dev"
