@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+	exit 1
+fi
+
+echo $BRANCH

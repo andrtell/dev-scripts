@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! SHORT_HASH=$(git rev-parse --short ${1:-HEAD} 2> /dev/null); then
+    exit 1
+fi
+
+echo $SHORT_HASH

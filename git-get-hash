@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! HASH=$(git rev-parse ${1:-HEAD} 2> /dev/null); then
+    exit 1
+fi
+
+echo $HASH

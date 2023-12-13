@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+IN="$*"
+LINE="$(echo " $IN " | sed 's/./─/g')"
+
+echo "╭$LINE╮"
+echo "│ $IN │"
+echo "╰$LINE╯"

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+COLOR=${1:-"none"}
+
+declare -A COLOR_TABLE=( \
+    ["black"]="0;30" \
+    ["blue"]="0;34" \
+    ["green"]="0;32" \
+    ["red"]="0;31" \
+    ["yellow"]="0;33" \
+    ["magenta"]="0;35" \
+    ["purple"]="0;35" \
+    ["cyan"]="0;36" \
+)
+
+CODE=${COLOR_TABLE[$COLOR]:-"0"}
+
+printf "\033[%bm" $CODE

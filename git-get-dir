@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! DIR=$(git rev-parse --show-toplevel 2> /dev/null); then
+	exit 1
+fi
+
+echo $DIR
