@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-if [[ ! -f "Containerfile" ]] && [[ ! -f "Dockerfile" ]]; then
-    exit 1
-fi

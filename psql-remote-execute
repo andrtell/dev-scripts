@@ -1,29 +1,25 @@
 #!/usr/bin/env bash
 
-HOST=vm01
-PCON=vm01
+TEMP_FILE=$(cat | ssh agent@vm01 'TEMP=$(mktemp); cat > $TEMP; echo $TEMP')
 
-if [[ -z "$1" ]]; then
-    exit 1
-fi
+__cleanup ()
+{
+    SIGNAL=$1
 
-LOCAL_FILE=$1
+    ssh agent@vm01 "rm -f $TEMP_FILE"
 
-if ! REMOTE_FILE=$(ssh agent@$HOST bash -c "mktemp"); then
-    exit 1
-fi
+    if [[ -n "$SIGNAL" ]]; then
+        trap $SIGNAL
+        kill -${SIGNAL} $$
+    fi
+}
 
-if ! scp $LOCAL_FILE agent@$HOST:$REMOTE_FILE > /dev/null; then
-    exit 1
-fi
+trap __cleanup EXIT
 
-podman -r -c $PCON run \
-    -it \
+podman -r -c vm01 run \
     --rm \
     --network db \
-    -v $REMOTE_FILE:/commands.txt \
-    --secret postgres_connection,type=env,target=CONN \
+    -v $TEMP_FILE:/commands.txt \
+    --secret postgres_connection,type=env,target=PG_CONN \
     docker.io/postgres \
-    bash -c 'psql $CONN -f /commands.txt'
-
-ssh agent@vm01 bash -c "'rm $REMOTE_FILE'"
+    bash -c 'psql $PG_CONN -q -f /commands.txt'
